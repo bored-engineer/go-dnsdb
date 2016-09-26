@@ -17,6 +17,7 @@ for _, record := range records {
 	fmt.Println("%s: %v", *record.RRName, record.RData)
 }
 ```
+For furthur usage see the [GoDocs][doc].
 
 ## Authentication
 The `dnsdb` library does not directly handle authentication. Instead, when creating a new client, you can pass a `http.Client` that handles authentication for you. It does provide a `APIKeyTransport` structure when using API Key authentication. It is used like this:
