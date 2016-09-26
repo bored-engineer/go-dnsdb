@@ -12,6 +12,7 @@ import (
 type APIKeyTransportTest struct {
 	Request *http.Request
 }
+
 func (t *APIKeyTransportTest) RoundTrip(req *http.Request) (*http.Response, error) {
 	t.Request = req
 	return nil, nil
