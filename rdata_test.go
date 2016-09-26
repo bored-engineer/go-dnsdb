@@ -41,12 +41,12 @@ func Test_RDataService_LookupName(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, []RData{
 		RData{
-			Count:         Uint64(45644),
-			ZoneTimeFirst: NewTimestamp(1372706073),
-			ZoneTimeLast:  NewTimestamp(1468330740),
-			RRName:        String("fsi.io."),
-			RRType:        String("MX"),
-			RData:         String("10 hq.fsi.io."),
+			Count:     Uint64(45644),
+			TimeFirst: NewTimestamp(1372706073),
+			TimeLast:  NewTimestamp(1468330740),
+			RRName:    String("fsi.io."),
+			RRType:    String("MX"),
+			RData:     String("10 hq.fsi.io."),
 		},
 		RData{
 			Count:     Uint64(19304),
