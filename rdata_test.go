@@ -28,31 +28,33 @@ func Test_RDataService_LookupName(t *testing.T) {
 
 	// Verify that it gets and parses a response correctly
 	reportServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		io.WriteString(w, `{"count":1078,"zone_time_first":1374250920,"zone_time_last":1468253883,"rrname":"farsightsecurity.com.","rrtype":"NS","rdata":"ns5.dnsmadeeasy.com."}
-{"count":706617,"time_first":1374096380,"time_last":1468334926,"rrname":"farsightsecurity.com.","rrtype":"NS","rdata":"ns5.dnsmadeeasy.com."}`)
+		io.WriteString(w, `{"count":45644,"time_first":1372706073,"time_last":1468330740,"rrname":"fsi.io.","rrtype":"MX","rdata":"10 hq.fsi.io."}
+{"count":19304,"time_first":1374098929,"time_last":1468333042,"rrname":"farsightsecurity.com.","rrtype":"MX","rdata":"10 hq.fsi.io."}`)
 	}))
 	defer reportServer.Close()
 	u, err = url.Parse(reportServer.URL)
 	assert.Nil(t, err)
 	c.BaseURL = u
-	actual, _, err := c.RData.LookupName("ns5.dnsmadeeasy.com", nil)
+	actual, _, err := c.RData.LookupName("hq.fsi.io", &RDataLookupNameOptions{
+		RRType: "MX",
+	})
 	assert.Nil(t, err)
 	assert.Equal(t, []RData{
 		RData{
-			Count:         Uint64(1078),
-			ZoneTimeFirst: NewTimestamp(1374250920),
-			ZoneTimeLast:  NewTimestamp(1468253883),
-			RRName:        String("farsightsecurity.com."),
-			RRType:        String("NS"),
-			RData:         String("ns5.dnsmadeeasy.com."),
+			Count:         Uint64(45644),
+			ZoneTimeFirst: NewTimestamp(1372706073),
+			ZoneTimeLast:  NewTimestamp(1468330740),
+			RRName:        String("fsi.io."),
+			RRType:        String("MX"),
+			RData:         String("10 hq.fsi.io."),
 		},
 		RData{
-			Count:     Uint64(706617),
-			TimeFirst: NewTimestamp(1374096380),
-			TimeLast:  NewTimestamp(1468334926),
+			Count:     Uint64(19304),
+			TimeFirst: NewTimestamp(1374098929),
+			TimeLast:  NewTimestamp(1468333042),
 			RRName:    String("farsightsecurity.com."),
-			RRType:    String("NS"),
-			RData:     String("ns5.dnsmadeeasy.com."),
+			RRType:    String("MX"),
+			RData:     String("10 hq.fsi.io."),
 		},
 	}, actual)
 }
