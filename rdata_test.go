@@ -11,6 +11,52 @@ import (
 	"testing"
 )
 
+func Test_RDataService_LookupName(t *testing.T) {
+	// Setup a client
+	c := NewClient(nil)
+
+	// Verify that an error response fails
+	errorServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "Oh No", 500)
+	}))
+	defer errorServer.Close()
+	u, err := url.Parse(errorServer.URL)
+	assert.Nil(t, err)
+	c.BaseURL = u
+	_, _, err = c.RData.LookupName("ns5.dnsmadeeasy.com", nil)
+	assert.NotNil(t, err)
+
+	// Verify that it gets and parses a response correctly
+	reportServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		io.WriteString(w, `{"count":1078,"zone_time_first":1374250920,"zone_time_last":1468253883,"rrname":"farsightsecurity.com.","rrtype":"NS","rdata":"ns5.dnsmadeeasy.com."}
+{"count":706617,"time_first":1374096380,"time_last":1468334926,"rrname":"farsightsecurity.com.","rrtype":"NS","rdata":"ns5.dnsmadeeasy.com."}`)
+	}))
+	defer reportServer.Close()
+	u, err = url.Parse(reportServer.URL)
+	assert.Nil(t, err)
+	c.BaseURL = u
+	actual, _, err := c.RData.LookupName("ns5.dnsmadeeasy.com", nil)
+	assert.Nil(t, err)
+	assert.Equal(t, []RData{
+		RData{
+			Count:         Uint64(1078),
+			ZoneTimeFirst: NewTimestamp(1374250920),
+			ZoneTimeLast:  NewTimestamp(1468253883),
+			RRName:        String("farsightsecurity.com."),
+			RRType:        String("NS"),
+			RData:         String("ns5.dnsmadeeasy.com."),
+		},
+		RData{
+			Count:     Uint64(706617),
+			TimeFirst: NewTimestamp(1374096380),
+			TimeLast:  NewTimestamp(1468334926),
+			RRName:    String("farsightsecurity.com."),
+			RRType:    String("NS"),
+			RData:     String("ns5.dnsmadeeasy.com."),
+		},
+	}, actual)
+}
+
 func Test_RDataService_LookupIP(t *testing.T) {
 	// Setup a client
 	c := NewClient(nil)
