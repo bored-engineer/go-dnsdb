@@ -120,3 +120,13 @@ func (c *Client) Do(req *http.Request) (*Response, error) {
 	// Return success
 	return response, nil
 }
+
+// String allocates a new string value to store and returns a pointer to it.
+func String(string string) *string {
+	return &string
+}
+
+// UInt64 allocates a new uint64 value to store and returns a pointer to it.
+func Uint64(uint64 uint64) *uint64 {
+	return &uint64
+}

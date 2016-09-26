@@ -11,6 +11,13 @@ type Timestamp struct {
 	time.Time
 }
 
+// Make a new Timestamp from a unix timestamp
+func NewTimestamp(secs int64) *Timestamp {
+	return &Timestamp{
+		Time: time.Unix(secs, 0),
+	}
+}
+
 // UnmarshalJSON helps unmarshal UNIX dates in JSON
 func (t *Timestamp) UnmarshalJSON(data []byte) error {
 	var err error
