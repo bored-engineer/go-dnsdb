@@ -25,6 +25,9 @@ func Test_APIKeyTransport(t *testing.T) {
 	client := auth.Client()
 	assert.NotNil(t, client)
 	assert.Equal(t, client.Transport, &auth)
+	// Send a request with the default client
+	_, err := auth.RoundTrip(&http.Request{})
+	assert.NotNil(t, err)
 	// Setup a test transport and send a request
 	testTransport := &APIKeyTransportTest{}
 	auth.Transport = testTransport
