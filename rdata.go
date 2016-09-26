@@ -119,7 +119,7 @@ type RDataLookupIPNetOptions struct {
 }
 
 // LookupIPNet fetches all matching records for the provided IPNet
-func (s *RDataService) LookupIPNet(ipnet net.IPNet, opt *RDataLookupIPOptions) ([]RData, *Response, error) {
+func (s *RDataService) LookupIPNet(ipnet net.IPNet, opt *RDataLookupIPNetOptions) ([]RData, *Response, error) {
 	path := "lookup/rdata/ip/" + strings.Replace(ipnet.String(), "/", ",", 1)
 	var lookupOpt LookupOptions
 	if opt != nil {
@@ -153,7 +153,7 @@ type RDataLookupRawOptions struct {
 }
 
 // LookupRaw fetches all matching records for the provided raw bytes and optional RRType (set to "")
-func (s *RDataService) LookupRaw(raw []byte, opt *RDataLookupIPOptions) ([]RData, *Response, error) {
+func (s *RDataService) LookupRaw(raw []byte, opt *RDataLookupRawOptions) ([]RData, *Response, error) {
 	path := "lookup/rdata/raw/" + hex.EncodeToString(raw)
 	var lookupOpt LookupOptions
 	if opt != nil {
