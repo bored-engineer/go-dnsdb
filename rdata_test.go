@@ -23,7 +23,18 @@ func Test_RDataService_LookupName(t *testing.T) {
 	u, err := url.Parse(errorServer.URL)
 	assert.Nil(t, err)
 	c.BaseURL = u
-	_, _, err = c.RData.LookupName("ns5.dnsmadeeasy.com", nil)
+	_, _, err = c.RData.LookupName("hq.fsi.io", nil)
+	assert.NotNil(t, err)
+
+	// Verify that an invalid response fails
+	invalidServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		io.WriteString(w, `{`)
+	}))
+	defer invalidServer.Close()
+	u, err = url.Parse(invalidServer.URL)
+	assert.Nil(t, err)
+	c.BaseURL = u
+	_, _, err = c.RData.LookupName("hq.fsi.io", nil)
 	assert.NotNil(t, err)
 
 	// Verify that it gets and parses a response correctly
