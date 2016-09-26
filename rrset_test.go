@@ -47,7 +47,7 @@ func Test_RRSetService_LookupName(t *testing.T) {
 			TimeLast:  NewTimestamp(1374023864),
 			RRName:    String("farsightsecurity.com."),
 			RRType:    String("NS"),
-			RData:     []string{
+			RData: []string{
 				"ns.lah1.vix.com.",
 				"ns1.isc-sns.net.",
 				"ns2.isc-sns.com.",
@@ -61,9 +61,9 @@ func Test_RRSetService_LookupName(t *testing.T) {
 			TimeLast:  NewTimestamp(1468324876),
 			RRName:    String("farsightsecurity.com."),
 			RRType:    String("NS"),
-			RData:     []string{
-				"ns5.dnsmadeeasy.com.", 
-				"ns6.dnsmadeeasy.com.", 
+			RData: []string{
+				"ns5.dnsmadeeasy.com.",
+				"ns6.dnsmadeeasy.com.",
 				"ns7.dnsmadeeasy.com.",
 			},
 		},
